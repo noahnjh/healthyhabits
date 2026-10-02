@@ -186,7 +186,7 @@ function buildRecapCanvas() {
 
     [
       ["Grateful for / excited about", section.gratitudeLines],
-      ["Notes", section.notesLines],
+      ["Additional Notes", section.notesLines],
     ].forEach(([label, lines]) => {
       context.fillStyle = "#c8755d";
       context.font = "bold 23px Arial, sans-serif";
@@ -256,7 +256,7 @@ themeToggle.addEventListener("click", () => {
 
 document.getElementById("reset-day").addEventListener("click", () => {
   const selectedDay = daySelect.value;
-  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its notes and habits.`);
+  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its additional notes and habits.`);
   if (!confirmed) return;
 
   document.querySelectorAll(`.habit-check[data-day="${selectedDay}"]`).forEach((checkbox) => {
