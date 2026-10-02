@@ -1,12 +1,33 @@
 :root {
-  --paper: #f5f4ef;
+  color-scheme: light;
+  --paper: #f3f2ed;
   --surface: #fffefa;
-  --ink: #24312c;
-  --muted: #68746d;
+  --ink: #26352e;
+  --muted: #748078;
   --line: #dfe3dc;
-  --forest: #264b3e;
+  --forest: #294b3d;
   --mint: #dcebe2;
   --coral: #c8755d;
+  --field: #fbfaf6;
+  --row-line: #eceee9;
+  --complete: #f4f8f3;
+  --shadow: 0 18px 55px rgb(35 48 40 / 6%);
+}
+
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --paper: #171c1a;
+  --surface: #202724;
+  --ink: #e8eee9;
+  --muted: #a3afa7;
+  --line: #39443e;
+  --forest: #b5d7c3;
+  --mint: #45594d;
+  --coral: #e4a18a;
+  --field: #1a201d;
+  --row-line: #343e38;
+  --complete: #242f29;
+  --shadow: 0 18px 55px rgb(0 0 0 / 16%);
 }
 
 * {
@@ -14,75 +35,143 @@
 }
 
 body {
+  min-width: 320px;
   margin: 0;
-  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  background-color: var(--paper);
-  background-image: radial-gradient(#d7ddd4 0.65px, transparent 0.65px);
-  background-size: 14px 14px;
+  background: var(--paper);
   color: var(--ink);
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button,
+select,
+textarea {
+  font: inherit;
 }
 
 .page {
-  max-width: 1260px;
+  width: min(100% - 36px, 620px);
   margin: 0 auto;
-  padding: 48px 28px 72px;
+  padding: 54px 0 64px;
 }
 
 .hero {
-  max-width: 760px;
-  padding: 10px 0 36px;
-  margin-bottom: 30px;
+  padding-bottom: 27px;
   border-bottom: 1px solid var(--line);
 }
 
 .eyebrow {
-  margin: 0 0 12px;
+  margin: 0 0 9px;
   color: var(--coral);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 750;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
 }
 
 .hero h1 {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--forest);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.8rem;
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.06;
 }
 
 .hero > p:last-child {
   margin: 0;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.day-controls {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 23px 0 17px;
+}
+
+.day-picker {
+  display: grid;
+  gap: 7px;
+}
+
+.day-picker .eyebrow {
+  margin: 0;
+}
+
+#day-select {
+  min-width: 180px;
+  padding: 8px 32px 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.control-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 650;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.button:hover {
+  border-color: var(--forest);
+}
+
+.button-reset {
+  color: var(--coral);
+}
+
+.button:focus-visible,
+#day-select:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
 }
 
 .week-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  display: block;
 }
 
 .day-card {
   min-width: 0;
-  padding: 22px;
-  background: var(--surface);
+  padding: clamp(20px, 5vw, 30px);
   border: 1px solid var(--line);
   border-top: 3px solid var(--mint);
+  background: var(--surface);
+  box-shadow: var(--shadow);
   transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.day-card[hidden] {
+  display: none;
 }
 
 .day-card.complete {
   border-top-color: var(--forest);
-  background: #f7fbf7;
+  background: var(--complete);
 }
 
 .day-heading {
   display: flex;
   align-items: baseline;
   gap: 11px;
-  padding-bottom: 15px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -90,64 +179,76 @@ body {
   margin: 0;
   color: var(--forest);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.55rem;
+  font-size: 1.8rem;
   font-weight: 500;
+}
+
+.day-date {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .day-index {
   color: var(--coral);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
 
 .gratitude-label {
   display: block;
-  margin: 17px 0 8px;
-  font-size: 0.83rem;
+  margin: 21px 0 8px;
+  font-size: 0.84rem;
   font-weight: 650;
   line-height: 1.45;
 }
 
-.gratitude-input {
+.gratitude-input,
+.notes-input {
   display: block;
   width: 100%;
-  min-height: 82px;
-  padding: 10px 11px;
+  min-height: 88px;
+  padding: 11px 12px;
   resize: vertical;
   border: 1px solid var(--line);
-  border-radius: 3px;
-  background: #fbfaf6;
+  border-radius: 4px;
+  background: var(--field);
   color: var(--ink);
-  font: inherit;
-  font-size: 0.85rem;
-  line-height: 1.45;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
-.gratitude-input::placeholder {
-  color: #89928b;
+.gratitude-input::placeholder,
+.notes-input::placeholder {
+  color: var(--muted);
 }
 
-.gratitude-input:focus-visible {
+.gratitude-input:focus-visible,
+.notes-input:focus-visible {
   outline: 2px solid var(--forest);
   outline-offset: 2px;
 }
 
 .habit-list {
-  margin-top: 13px;
+  margin-top: 14px;
 }
 
 .check-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  min-height: 39px;
-  padding: 9px 1px;
-  border-bottom: 1px solid #eceee9;
-  color: #3f4c45;
+  gap: 11px;
+  min-height: 42px;
+  padding: 11px 1px;
+  border-bottom: 1px solid var(--row-line);
+  color: var(--ink);
   cursor: pointer;
-  font-size: 0.84rem;
+  font-size: 0.87rem;
   line-height: 1.4;
+}
+
+.check-row:last-child {
+  border-bottom: 0;
 }
 
 .check-row input {
@@ -159,81 +260,93 @@ body {
   cursor: pointer;
 }
 
-.summary-card {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(220px, 2fr);
+.recap-dialog {
+  width: min(100% - 28px, 700px);
+  max-height: min(90vh, 900px);
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.recap-dialog::backdrop {
+  background: rgb(16 22 18 / 62%);
+}
+
+.recap-header,
+.recap-actions {
+  display: flex;
   align-items: center;
-  gap: 32px;
-  margin-top: 22px;
-  padding: 24px 26px;
-  background: var(--forest);
-  color: white;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.summary-card .eyebrow {
-  margin-bottom: 7px;
-  color: #e9b19c;
+.recap-header {
+  margin-bottom: 16px;
 }
 
-.summary-card h3 {
+.recap-header h2 {
   margin: 0;
+  color: var(--forest);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.45rem;
+  font-size: 1.55rem;
   font-weight: 500;
 }
 
-.progress-bar {
+.recap-image {
+  display: block;
   width: 100%;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  overflow: hidden;
+  max-height: 60vh;
+  object-fit: contain;
+  border: 1px solid var(--line);
 }
 
-#progress-fill {
-  height: 100%;
-  width: 0%;
-  background: #e9b19c;
-  border-radius: 999px;
-  transition: width 0.3s ease;
+.recap-actions {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 14px;
 }
 
-#progress-text {
-  margin: 7px 0 0;
-  color: #e3eae5;
-  font-size: 0.82rem;
+.button-save {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
-@media (max-width: 900px) {
-  .week-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.recap-status {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 460px) {
   .page {
-    padding: 32px 16px 48px;
+    width: min(100% - 28px, 620px);
+    padding-top: 36px;
   }
 
-  .hero {
-    padding-bottom: 26px;
+  .day-controls {
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  .hero h1 {
-    font-size: 2.15rem;
+  .control-actions {
+    justify-content: space-between;
   }
 
-  .week-grid {
-    grid-template-columns: 1fr;
+  .control-actions .button {
+    flex: 1;
   }
+}
 
-  .day-card {
-    padding: 19px;
-  }
-
-  .summary-card {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 22px;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
