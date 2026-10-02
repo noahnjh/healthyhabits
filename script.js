@@ -254,22 +254,6 @@ themeToggle.addEventListener("click", () => {
   setTheme(nextTheme);
 });
 
-document.getElementById("reset-day").addEventListener("click", () => {
-  const selectedDay = daySelect.value;
-  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its additional notes and habits.`);
-  if (!confirmed) return;
-
-  document.querySelectorAll(`.habit-check[data-day="${selectedDay}"]`).forEach((checkbox) => {
-    checkbox.checked = false;
-  });
-  const gratitudeInput = document.querySelector(`.gratitude-input[data-day="${selectedDay}"]`);
-  gratitudeInput.value = "";
-  const notesInput = document.querySelector(`.notes-input[data-day="${selectedDay}"]`);
-  notesInput.value = "";
-  saveProgress();
-  gratitudeInput.focus();
-});
-
 document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEach((input) => {
   input.addEventListener(input.type === "checkbox" ? "change" : "input", saveProgress);
 });
