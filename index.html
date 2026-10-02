@@ -9,7 +9,7 @@
   <body>
     <div class="page">
       <header class="hero">
-        <p class="eyebrow">A WEEKLY CHECK-IN</p>
+        <p class="eyebrow">A DAILY CHECK-IN</p>
         <h1>Healthy Habits</h1>
         <p>A small check-in for the habits that help you feel well.</p>
       </header>
@@ -28,7 +28,16 @@
           </select>
         </div>
         <div class="control-actions">
-          <button id="theme-toggle" class="button button-secondary" type="button" aria-pressed="false">Night theme</button>
+          <button id="theme-toggle" class="button button-theme" type="button" aria-label="Switch to night theme" title="Switch to night theme" aria-pressed="false">
+            <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.6 8.6 0 1 0 20.2 15.4Z" />
+            </svg>
+            <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+            </svg>
+          </button>
+          <button id="reset-day" class="button button-reset" type="button">Reset day</button>
           <button id="weekly-recap" class="button button-recap" type="button">Weekly recap</button>
         </div>
       </section>
@@ -124,7 +133,6 @@
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="Meditate" /><span>Meditate</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="Make Bed" /><span>Make Bed</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="Give and receive love with friends, family, or community" /><span>Give and receive love with friends, family, or community</span></label>
-            <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="0-2 Trades max" /><span>0-2 Trades max</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="Play/Create time (15min or more)" /><span>Play/Create time (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="Read (15min or more)" /><span>Read (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Friday" data-practice="In bed by 11pm" /><span>In bed by 11pm</span></label>
@@ -143,7 +151,6 @@
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Meditate" /><span>Meditate</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Make Bed" /><span>Make Bed</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Give and receive love with friends, family, or community" /><span>Give and receive love with friends, family, or community</span></label>
-            <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="0-2 Trades max" /><span>0-2 Trades max</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Play/Create time (15min or more)" /><span>Play/Create time (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Read (15min or more)" /><span>Read (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Saturday" data-practice="In bed by 11pm" /><span>In bed by 11pm</span></label>
@@ -163,7 +170,7 @@
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Make Bed" /><span>Make Bed</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Give and receive love with friends, family, or community" /><span>Give and receive love with friends, family, or community</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Tea/Water instead of dessert" /><span>Tea/Water instead of dessert</span></label>
-            <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="0-2 Trades max" /><span>0-2 Trades max</span></label>
+            <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Weekend in-person social time" /><span>Weekend in-person social time</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Play/Create time (15min or more)" /><span>Play/Create time (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Read (15min or more)" /><span>Read (15min or more)</span></label>
             <label class="check-row"><input type="checkbox" class="habit-check" data-day="Sunday" data-practice="In bed by 11pm" /><span>In bed by 11pm</span></label>
