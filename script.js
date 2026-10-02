@@ -75,7 +75,9 @@ function selectDay(day) {
 function setTheme(theme) {
   const isNight = theme === "night";
   document.documentElement.dataset.theme = isNight ? "night" : "day";
-  themeToggle.textContent = isNight ? "Day theme" : "Night theme";
+  const themeAction = isNight ? "Switch to day theme" : "Switch to night theme";
+  themeToggle.setAttribute("aria-label", themeAction);
+  themeToggle.title = themeAction;
   themeToggle.setAttribute("aria-pressed", String(isNight));
   localStorage.setItem(themeStorageKey, isNight ? "night" : "day");
 }
@@ -252,6 +254,22 @@ daySelect.addEventListener("change", () => {
 themeToggle.addEventListener("click", () => {
   const nextTheme = document.documentElement.dataset.theme === "night" ? "day" : "night";
   setTheme(nextTheme);
+});
+
+document.getElementById("reset-day").addEventListener("click", () => {
+  const selectedDay = daySelect.value;
+  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its additional notes and habits.`);
+  if (!confirmed) return;
+
+  document.querySelectorAll(`.habit-check[data-day="${selectedDay}"]`).forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  const gratitudeInput = document.querySelector(`.gratitude-input[data-day="${selectedDay}"]`);
+  gratitudeInput.value = "";
+  const notesInput = document.querySelector(`.notes-input[data-day="${selectedDay}"]`);
+  notesInput.value = "";
+  saveProgress();
+  gratitudeInput.focus();
 });
 
 document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEach((input) => {

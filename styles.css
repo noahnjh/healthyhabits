@@ -134,6 +134,33 @@ textarea {
   border-color: var(--forest);
 }
 
+.button-theme {
+  display: inline-grid;
+  width: 38px;
+  min-height: 38px;
+  padding: 8px;
+  place-items: center;
+}
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+:root:not([data-theme="night"]) .icon-sun,
+:root[data-theme="night"] .icon-moon {
+  display: none;
+}
+
+.button-reset {
+  color: var(--coral);
+}
+
 .button:focus-visible,
 #day-select:focus-visible {
   outline: 2px solid var(--coral);
