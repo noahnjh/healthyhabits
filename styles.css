@@ -1,0 +1,137 @@
+:root {
+  --bg: #f4f9f4;
+  --card: #ffffff;
+  --green: #2d9c5d;
+  --green-dark: #207a46;
+  --text: #1f2a1f;
+  --muted: #5b6c5d;
+  --border: #dfe9df;
+  --shadow: 0 8px 24px rgba(24, 50, 30, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #eefaf0, #f7f9f7);
+  color: var(--text);
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--green), #79c89b);
+  color: white;
+  border-radius: 18px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.hero p {
+  margin: 0;
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.day-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-2px);
+  border-color: #cde7d2;
+}
+
+.day-card h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: #f7fbf7;
+  border: 1px solid #edf3ee;
+}
+
+.check-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.day-card.complete {
+  border-color: var(--green);
+  background: #f1faf4;
+}
+
+.day-card.complete h2 {
+  color: var(--green-dark);
+}
+
+.summary-card {
+  margin-top: 30px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.summary-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: #edf3ee;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), #7ed6a0);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+#progress-text {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-weight: 600;
+}

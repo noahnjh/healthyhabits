@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthy Habits Check-In</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <h1>Healthy Habits Daily Check-In</h1>
+        <p>Check off the supportive practices you completed this week.</p>
+      </header>
+
+      <main class="week-grid">
+        <section class="day-card" data-day="Monday">
+          <h2>Monday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Monday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Tuesday">
+          <h2>Tuesday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Tuesday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Wednesday">
+          <h2>Wednesday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Wednesday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Thursday">
+          <h2>Thursday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Thursday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Friday">
+          <h2>Friday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Friday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Saturday">
+          <h2>Saturday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Saturday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+
+        <section class="day-card" data-day="Sunday">
+          <h2>Sunday</h2>
+          <label class="check-row">
+            <input type="checkbox" class="habit-check" data-day="Sunday" data-practice="Stretch/Exercise" />
+            <span>Stretch/Exercise</span>
+          </label>
+        </section>
+      </main>
+
+      <aside class="summary-card">
+        <h3>Weekly Summary</h3>
+        <div class="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+        <p id="progress-text">0% complete</p>
+      </aside>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
