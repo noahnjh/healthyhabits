@@ -59,8 +59,21 @@ function loadProgress() {
 function updateCardStyles() {
   dayCards.forEach((card) => {
     const checkboxes = card.querySelectorAll(".habit-check");
-    const isComplete = checkboxes.length > 0 && Array.from(checkboxes).every((box) => box.checked);
+    const checkedCount = Array.from(checkboxes).filter((box) => box.checked).length;
+    const isComplete = checkboxes.length > 0 && checkedCount === checkboxes.length;
     card.classList.toggle("complete", isComplete);
+
+    const message = card.querySelector(".checkin-message");
+    if (isComplete) {
+      message.textContent = "Thank you for showing up for yourself. I'm proud of you.";
+      message.hidden = false;
+    } else if (checkboxes.length > 0 && checkedCount / checkboxes.length >= 0.5) {
+      message.textContent = "You're doing great. Keep showing up for yourself.";
+      message.hidden = false;
+    } else {
+      message.textContent = "";
+      message.hidden = true;
+    }
   });
 }
 
