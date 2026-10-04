@@ -212,6 +212,60 @@ textarea {
   font-size: 0.78rem;
 }
 
+.ritual-tracker {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 14px 0 2px;
+}
+
+.ritual-button {
+  display: grid;
+  min-width: 0;
+  min-height: 66px;
+  padding: 8px 2px 6px;
+  place-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--field);
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.ritual-button:hover,
+.ritual-button[aria-pressed="true"] {
+  border-color: var(--forest);
+  background: var(--mint);
+  color: var(--forest);
+}
+
+.ritual-button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.ritual-icon {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.ritual-button span {
+  max-width: 100%;
+  font-size: 0.61rem;
+  font-weight: 650;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
 .gratitude-label {
   display: block;
   margin: 21px 0 8px;

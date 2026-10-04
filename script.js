@@ -2,6 +2,28 @@ const storageKey = "healthy-habits-checkin";
 const dayStorageKey = "healthy-habits-selected-day";
 const themeStorageKey = "healthy-habits-theme";
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const ritualTimes = [
+  {
+    name: "Morning",
+    icon: '<path d="M3 18h18M6 18a6 6 0 0 1 12 0M12 3v2M5.6 6.6 7 8m10-1.4L15.6 8" />',
+  },
+  {
+    name: "Midday",
+    icon: '<circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />',
+  },
+  {
+    name: "Afternoon",
+    icon: '<path d="M3 19h18M6 16a6 6 0 0 1 12 0M12 3v4m-5.7.3 1.4 1.4m10-1.4-1.4 1.4" />',
+  },
+  {
+    name: "Evening",
+    icon: '<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 3v5m-4-2 4 4 4-4" />',
+  },
+  {
+    name: "Night",
+    icon: '<path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.6 8.6 0 1 0 20.2 15.4Z" /><path d="M17.5 4v3m-1.5-1.5h3" />',
+  },
+];
 const daySelect = document.getElementById("day-select");
 const themeToggle = document.getElementById("theme-toggle");
 const dayCards = document.querySelectorAll(".day-card");
@@ -22,6 +44,14 @@ function saveProgress() {
     progress[day] = {
       ...(progress[day] || {}),
       [practice]: checkbox.checked,
+    };
+  });
+
+  document.querySelectorAll(".ritual-button").forEach((button) => {
+    const { day, ritual } = button.dataset;
+    progress[day] = {
+      ...(progress[day] || {}),
+      [ritual]: button.getAttribute("aria-pressed") === "true",
     };
   });
 
@@ -48,6 +78,11 @@ function loadProgress() {
     }
   });
 
+  document.querySelectorAll(".ritual-button").forEach((button) => {
+    const { day, ritual } = button.dataset;
+    button.setAttribute("aria-pressed", String(saved[day]?.[ritual] === true));
+  });
+
   document.querySelectorAll(".gratitude-input, .notes-input").forEach((input) => {
     const field = input.classList.contains("gratitude-input") ? "gratitude" : "notes";
     input.value = saved[input.dataset.day]?.[field] || "";
@@ -58,22 +93,41 @@ function loadProgress() {
 
 function updateCardStyles() {
   dayCards.forEach((card) => {
-    const checkboxes = card.querySelectorAll(".habit-check");
-    const checkedCount = Array.from(checkboxes).filter((box) => box.checked).length;
-    const isComplete = checkboxes.length > 0 && checkedCount === checkboxes.length;
+    const tasks = card.querySelectorAll(".habit-check, .ritual-button");
+    const checkedCount = Array.from(tasks).filter((task) => (
+      task.matches(".habit-check") ? task.checked : task.getAttribute("aria-pressed") === "true"
+    )).length;
+    const isComplete = tasks.length > 0 && checkedCount === tasks.length;
     card.classList.toggle("complete", isComplete);
 
     const message = card.querySelector(".checkin-message");
     if (isComplete) {
       message.textContent = "Thank you for showing up for yourself. I'm proud of you.";
       message.hidden = false;
-    } else if (checkboxes.length > 0 && checkedCount / checkboxes.length >= 0.5) {
+    } else if (tasks.length > 0 && checkedCount / tasks.length >= 0.5) {
       message.textContent = "You're doing great. Keep showing up for yourself.";
       message.hidden = false;
     } else {
       message.textContent = "";
       message.hidden = true;
     }
+  });
+}
+
+function addRitualTrackers() {
+  dayCards.forEach((card) => {
+    const day = card.dataset.day;
+    const tracker = document.createElement("div");
+    tracker.className = "ritual-tracker";
+    tracker.setAttribute("role", "group");
+    tracker.setAttribute("aria-label", `${day} ritual check-ins`);
+    tracker.innerHTML = ritualTimes.map(({ name, icon }) => `
+      <button class="ritual-button" type="button" data-day="${day}" data-ritual="${name}" aria-label="${name} ritual" title="${name} ritual" aria-pressed="false">
+        <svg class="ritual-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${icon}</svg>
+        <span>${name}</span>
+      </button>
+    `).join("");
+    card.querySelector(".day-heading").after(tracker);
   });
 }
 
@@ -249,6 +303,8 @@ async function createRecap() {
   }
 }
 
+addRitualTrackers();
+
 dayCards.forEach((card) => {
   card.hidden = true;
 });
@@ -271,11 +327,14 @@ themeToggle.addEventListener("click", () => {
 
 document.getElementById("reset-day").addEventListener("click", () => {
   const selectedDay = daySelect.value;
-  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its additional notes and habits.`);
+  const confirmed = window.confirm(`Reset ${selectedDay}'s check-in? This clears its notes, habits, and ritual check-ins.`);
   if (!confirmed) return;
 
   document.querySelectorAll(`.habit-check[data-day="${selectedDay}"]`).forEach((checkbox) => {
     checkbox.checked = false;
+  });
+  document.querySelectorAll(`.ritual-button[data-day="${selectedDay}"]`).forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
   });
   const gratitudeInput = document.querySelector(`.gratitude-input[data-day="${selectedDay}"]`);
   gratitudeInput.value = "";
@@ -287,6 +346,14 @@ document.getElementById("reset-day").addEventListener("click", () => {
 
 document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEach((input) => {
   input.addEventListener(input.type === "checkbox" ? "change" : "input", saveProgress);
+});
+
+document.querySelectorAll(".ritual-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const isPressed = button.getAttribute("aria-pressed") === "true";
+    button.setAttribute("aria-pressed", String(!isPressed));
+    saveProgress();
+  });
 });
 
 document.getElementById("weekly-recap").addEventListener("click", createRecap);
