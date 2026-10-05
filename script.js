@@ -29,6 +29,7 @@ const themeToggle = document.getElementById("theme-toggle");
 const dayCards = document.querySelectorAll(".day-card");
 const recapDialog = document.getElementById("recap-dialog");
 const recapStatus = document.getElementById("recap-status");
+const ritualDialog = document.getElementById("ritual-dialog");
 let recapUrl;
 
 function getSavedProgress() {
@@ -117,6 +118,20 @@ function updateCardStyles() {
 function addRitualTrackers() {
   dayCards.forEach((card) => {
     const day = card.dataset.day;
+    const heading = card.querySelector(".day-heading");
+    const guideButton = document.createElement("button");
+    guideButton.className = "button ritual-guide-button";
+    guideButton.type = "button";
+    guideButton.setAttribute("aria-label", "Open the five-minute ritual and affirmations");
+    guideButton.innerHTML = `
+      <svg class="ritual-guide-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 20c-4.2-2.2-6.3-5.2-6.3-8.1a3.6 3.6 0 0 1 6.3-2.4 3.6 3.6 0 0 1 6.3 2.4c0 2.9-2.1 5.9-6.3 8.1Z" />
+        <path d="M12 20V9m-6.1 2.6L12 16l6.1-4.4M3 5.5c1.4 0 2.1.7 2.1 2.1M21 5.5c-1.4 0-2.1.7-2.1 2.1" />
+      </svg>
+      <span>5-minute ritual</span>
+    `;
+    heading.append(guideButton);
+
     const tracker = document.createElement("div");
     tracker.className = "ritual-tracker";
     tracker.setAttribute("role", "group");
@@ -127,7 +142,7 @@ function addRitualTrackers() {
         <span>${name}</span>
       </button>
     `).join("");
-    card.querySelector(".day-heading").after(tracker);
+    heading.after(tracker);
   });
 }
 
@@ -358,6 +373,10 @@ document.querySelectorAll(".ritual-button").forEach((button) => {
 
 document.getElementById("weekly-recap").addEventListener("click", createRecap);
 document.getElementById("close-recap").addEventListener("click", () => recapDialog.close());
+document.querySelectorAll(".ritual-guide-button").forEach((button) => {
+  button.addEventListener("click", () => ritualDialog.showModal());
+});
+document.getElementById("close-ritual").addEventListener("click", () => ritualDialog.close());
 document.getElementById("copy-recap").addEventListener("click", async () => {
   if (!recapUrl || !navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
     recapStatus.textContent = "Image copying is not available in this browser. Use Save image instead.";
