@@ -192,10 +192,29 @@ textarea {
 
 .day-heading {
   display: flex;
-  align-items: baseline;
-  gap: 11px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
+}
+
+.ritual-guide-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  color: var(--forest);
+}
+
+.ritual-guide-icon {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
 }
 
 .day-heading h2 {
@@ -349,6 +368,104 @@ textarea {
   box-shadow: var(--shadow);
 }
 
+.ritual-dialog {
+  max-height: min(90vh, 900px);
+}
+
+.ritual-content {
+  max-height: calc(min(90vh, 900px) - 110px);
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.ritual-intro,
+.ritual-steps p,
+.affirmations > p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.ritual-intro {
+  margin: 0 0 17px;
+}
+
+.ritual-steps {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.ritual-steps li {
+  padding-left: 4px;
+}
+
+.ritual-steps li::marker {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+.ritual-steps h3,
+.affirmations h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0;
+  color: var(--forest);
+  font-size: 0.92rem;
+}
+
+.ritual-steps h3 span,
+.affirmations h4 span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.ritual-steps p {
+  margin: 5px 0 0;
+}
+
+.affirmations {
+  margin-top: 25px;
+  padding-top: 19px;
+  border-top: 1px solid var(--line);
+}
+
+.affirmations > h3 {
+  margin: 0;
+  color: var(--forest);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.affirmations > p {
+  margin: 6px 0 16px;
+}
+
+.affirmations section {
+  padding: 13px 0;
+  border-top: 1px solid var(--row-line);
+}
+
+.affirmations ul {
+  display: grid;
+  gap: 8px;
+  margin: 9px 0 0;
+  padding-left: 20px;
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.affirmations li::marker {
+  color: var(--coral);
+}
+
 .recap-dialog::backdrop {
   background: rgb(16 22 18 / 62%);
 }
@@ -417,6 +534,16 @@ textarea {
 
   .control-actions .button {
     flex: 1;
+  }
+
+  .day-heading {
+    align-items: flex-start;
+  }
+
+  .ritual-guide-button {
+    gap: 6px;
+    padding: 7px 8px;
+    font-size: 0.72rem;
   }
 }
 
