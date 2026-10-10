@@ -179,6 +179,37 @@ function updateWeekDates() {
   });
 }
 
+function getToday() {
+  return ["Sunday", ...days.slice(0, 6)][new Date().getDay()];
+}
+
+function resetWeek() {
+  const confirmed = window.confirm(
+    "Reset this week? This clears all check-ins, habits, rituals, gratitude, notes, and saved progress for every day. Make sure you have created and saved your weekly recap first. This cannot be undone."
+  );
+  if (!confirmed) return;
+
+  localStorage.removeItem(storageKey);
+  document.querySelectorAll(".habit-check").forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  document.querySelectorAll(".ritual-button").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
+  document.querySelectorAll(".gratitude-input, .notes-input").forEach((input) => {
+    input.value = "";
+  });
+
+  updateCardStyles();
+  updateWeekDates();
+  selectDay(getToday());
+
+  if (recapUrl) URL.revokeObjectURL(recapUrl);
+  recapUrl = undefined;
+  document.getElementById("recap-image").removeAttribute("src");
+  document.getElementById("save-recap").removeAttribute("href");
+}
+
 function wrapText(context, text, maxWidth) {
   return text.split("\n").flatMap((paragraph) => {
     if (!paragraph) return [""];
@@ -324,7 +355,7 @@ dayCards.forEach((card) => {
   card.hidden = true;
 });
 
-const today = ["Sunday", ...days.slice(0, 6)][new Date().getDay()];
+const today = getToday();
 const savedDay = localStorage.getItem(dayStorageKey);
 selectDay(days.includes(savedDay) ? savedDay : today);
 setTheme(localStorage.getItem(themeStorageKey) === "night" ? "night" : "day");
@@ -358,6 +389,8 @@ document.getElementById("reset-day").addEventListener("click", () => {
   saveProgress();
   gratitudeInput.focus();
 });
+
+document.getElementById("reset-week").addEventListener("click", resetWeek);
 
 document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEach((input) => {
   input.addEventListener(input.type === "checkbox" ? "change" : "input", saveProgress);

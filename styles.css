@@ -517,7 +517,7 @@ textarea {
   font-size: 0.8rem;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 560px) {
   .page {
     width: min(100% - 28px, 620px);
     padding-top: 36px;
@@ -530,10 +530,15 @@ textarea {
 
   .control-actions {
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
-  .control-actions .button {
-    flex: 1;
+  .control-actions .button-theme {
+    flex: 0 0 38px;
+  }
+
+  .control-actions .button:not(.button-theme) {
+    flex: 1 1 36%;
   }
 
   .day-heading {
