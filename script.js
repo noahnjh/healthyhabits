@@ -122,7 +122,7 @@ function addRitualTrackers() {
     const guideButton = document.createElement("button");
     guideButton.className = "button ritual-guide-button";
     guideButton.type = "button";
-    guideButton.setAttribute("aria-label", "Open the five-minute ritual and affirmations");
+    guideButton.setAttribute("aria-label", "Open the five-minute ritual");
     guideButton.innerHTML = `
       <svg class="ritual-guide-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M12 20c-4.2-2.2-6.3-5.2-6.3-8.1a3.6 3.6 0 0 1 6.3-2.4 3.6 3.6 0 0 1 6.3 2.4c0 2.9-2.1 5.9-6.3 8.1Z" />
