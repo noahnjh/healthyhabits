@@ -233,7 +233,7 @@ textarea {
 
 .ritual-tracker {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   margin: 14px 0 2px;
 }
@@ -330,14 +330,17 @@ textarea {
 }
 
 .decision-button {
-  min-height: 40px;
-  padding: 8px 6px;
+  display: grid;
+  min-height: 66px;
+  padding: 8px 2px 6px;
+  place-items: center;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--field);
   color: var(--muted);
   cursor: pointer;
-  font-size: 0.8rem;
+  font: inherit;
+  font-size: 0.78rem;
   font-weight: 650;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
