@@ -171,6 +171,16 @@ textarea {
   display: block;
 }
 
+.page-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 28px;
+}
+
+.somatic-button {
+  color: var(--forest);
+}
+
 .day-card {
   min-width: 0;
   padding: clamp(20px, 5vw, 30px);
@@ -512,6 +522,100 @@ textarea {
   font-size: 0.8rem;
 }
 
+.somatic-dialog {
+  max-width: 560px;
+}
+
+.somatic-intro {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.somatic-status {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  background: var(--field);
+}
+
+.somatic-status strong {
+  color: var(--forest);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.somatic-status span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.body-map {
+  position: relative;
+  width: min(100%, 350px);
+  height: 390px;
+  margin: 18px auto 10px;
+}
+
+.body-part {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid var(--forest);
+  border-radius: 50%;
+  background: var(--mint);
+  color: transparent;
+  cursor: pointer;
+  font-size: 0.68rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.body-part:hover,
+.body-part:focus-visible,
+.body-part.is-active {
+  background: var(--coral);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--coral) 25%, transparent);
+  transform: scale(1.08);
+}
+
+.body-part:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 3px;
+}
+
+.body-head { top: 5px; left: calc(50% - 27px); width: 54px; height: 62px; }
+.body-neck { top: 64px; left: calc(50% - 13px); width: 26px; height: 30px; border-radius: 4px; }
+.body-chest { top: 86px; left: calc(50% - 52px); width: 104px; height: 102px; border-radius: 42% 42% 28% 28%; }
+.body-belly { top: 169px; left: calc(50% - 44px); width: 88px; height: 70px; border-radius: 24px; }
+.body-left-arm { top: 94px; left: calc(50% - 92px); width: 38px; height: 116px; border-radius: 22px; transform: rotate(8deg); }
+.body-right-arm { top: 94px; right: calc(50% - 92px); width: 38px; height: 116px; border-radius: 22px; transform: rotate(-8deg); }
+.body-left-hand { top: 202px; left: calc(50% - 105px); width: 31px; height: 31px; }
+.body-right-hand { top: 202px; right: calc(50% - 105px); width: 31px; height: 31px; }
+.body-left-leg { top: 229px; left: calc(50% - 48px); width: 42px; height: 125px; border-radius: 16px 16px 20px 20px; }
+.body-right-leg { top: 229px; right: calc(50% - 48px); width: 42px; height: 125px; border-radius: 16px 16px 20px 20px; }
+.body-left-foot { top: 344px; left: calc(50% - 61px); width: 58px; height: 28px; border-radius: 20px 5px 5px 20px; }
+.body-right-foot { top: 344px; right: calc(50% - 61px); width: 58px; height: 28px; border-radius: 5px 20px 20px 5px; }
+
+.somatic-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.somatic-actions .recap-status {
+  flex-basis: auto;
+}
+
 @media (max-width: 560px) {
   .page {
     width: min(100% - 28px, 620px);
@@ -544,6 +648,12 @@ textarea {
     gap: 6px;
     padding: 7px 8px;
     font-size: 0.72rem;
+  }
+
+  .somatic-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
   }
 }
 
