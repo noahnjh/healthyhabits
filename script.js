@@ -8,16 +8,8 @@ const ritualTimes = [
     icon: '<path d="M3 18h18M6 18a6 6 0 0 1 12 0M12 3v2M5.6 6.6 7 8m10-1.4L15.6 8" />',
   },
   {
-    name: "Midday",
-    icon: '<circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />',
-  },
-  {
-    name: "Afternoon",
     icon: '<path d="M3 19h18M6 16a6 6 0 0 1 12 0M12 3v4m-5.7.3 1.4 1.4m10-1.4-1.4 1.4" />',
-  },
-  {
-    name: "Evening",
-    icon: '<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 3v5m-4-2 4 4 4-4" />',
+    name: "Afternoon",
   },
   {
     name: "Night",
@@ -65,6 +57,15 @@ function saveProgress() {
     };
   });
 
+  document.querySelectorAll(".decision-group").forEach((group) => {
+    const day = group.dataset.day;
+    const selected = group.querySelector(".decision-button[aria-pressed='true']");
+    progress[day] = {
+      ...(progress[day] || {}),
+      decision: selected?.dataset.decision || "",
+    };
+  });
+
   localStorage.setItem(storageKey, JSON.stringify(progress));
   updateCardStyles();
 }
@@ -89,14 +90,23 @@ function loadProgress() {
     input.value = saved[input.dataset.day]?.[field] || "";
   });
 
+  document.querySelectorAll(".decision-button").forEach((button) => {
+    const { day, decision } = button.dataset;
+    button.setAttribute("aria-pressed", String(saved[day]?.decision === decision));
+  });
+
   updateCardStyles();
 }
 
 function updateCardStyles() {
   dayCards.forEach((card) => {
-    const tasks = card.querySelectorAll(".habit-check, .ritual-button");
+    const tasks = card.querySelectorAll(".habit-check, .ritual-button, .decision-group");
     const checkedCount = Array.from(tasks).filter((task) => (
-      task.matches(".habit-check") ? task.checked : task.getAttribute("aria-pressed") === "true"
+      task.matches(".habit-check")
+        ? task.checked
+        : task.matches(".decision-group")
+          ? task.querySelector('[aria-pressed="true"]') !== null
+          : task.getAttribute("aria-pressed") === "true"
     )).length;
     const isComplete = tasks.length > 0 && checkedCount === tasks.length;
     card.classList.toggle("complete", isComplete);
@@ -122,13 +132,13 @@ function addRitualTrackers() {
     const guideButton = document.createElement("button");
     guideButton.className = "button ritual-guide-button";
     guideButton.type = "button";
-    guideButton.setAttribute("aria-label", "Open the five-minute ritual");
+    guideButton.setAttribute("aria-label", "Open the three-times-daily ritual");
     guideButton.innerHTML = `
       <svg class="ritual-guide-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M12 20c-4.2-2.2-6.3-5.2-6.3-8.1a3.6 3.6 0 0 1 6.3-2.4 3.6 3.6 0 0 1 6.3 2.4c0 2.9-2.1 5.9-6.3 8.1Z" />
         <path d="M12 20V9m-6.1 2.6L12 16l6.1-4.4M3 5.5c1.4 0 2.1.7 2.1 2.1M21 5.5c-1.4 0-2.1.7-2.1 2.1" />
       </svg>
-      <span>5-minute ritual</span>
+      <span>3-times-daily ritual</span>
     `;
     heading.append(guideButton);
 
@@ -194,6 +204,9 @@ function resetWeek() {
     checkbox.checked = false;
   });
   document.querySelectorAll(".ritual-button").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
+  document.querySelectorAll(".decision-button").forEach((button) => {
     button.setAttribute("aria-pressed", "false");
   });
   document.querySelectorAll(".gratitude-input, .notes-input").forEach((input) => {
@@ -263,6 +276,7 @@ function buildRecapCanvas() {
     date: document.querySelector(`[data-day-date="${day}"]`).textContent,
     gratitude: document.querySelector(`.gratitude-input[data-day="${day}"]`).value.trim(),
     notes: document.querySelector(`.notes-input[data-day="${day}"]`).value.trim(),
+    decision: document.querySelector(`.decision-button[data-day="${day}"][aria-pressed="true"]`)?.dataset.decision || "Not selected",
     index,
   }));
 
@@ -273,7 +287,7 @@ function buildRecapCanvas() {
   });
 
   const height = sections.reduce((total, section) => (
-    total + 92 + (section.gratitudeLines.length + section.notesLines.length + 2) * lineHeight
+    total + 92 + (section.gratitudeLines.length + section.notesLines.length + 3) * lineHeight
   ), 210) + margin;
   if (height > 16000) {
     throw new Error("This recap is too long to fit in one image. Shorten the notes and try again.");
@@ -301,7 +315,8 @@ function buildRecapCanvas() {
 
     [
       ["Grateful for / excited about", section.gratitudeLines],
-      ["Additional Notes", section.notesLines],
+      ["Making Good Decisions", wrapText(context, section.decision, contentWidth)],
+      ["Notes", section.notesLines],
     ].forEach(([label, lines]) => {
       context.fillStyle = "#c8755d";
       context.font = "bold 23px Arial, sans-serif";
@@ -382,6 +397,9 @@ document.getElementById("reset-day").addEventListener("click", () => {
   document.querySelectorAll(`.ritual-button[data-day="${selectedDay}"]`).forEach((button) => {
     button.setAttribute("aria-pressed", "false");
   });
+  document.querySelectorAll(`.decision-button[data-day="${selectedDay}"]`).forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
   const gratitudeInput = document.querySelector(`.gratitude-input[data-day="${selectedDay}"]`);
   gratitudeInput.value = "";
   const notesInput = document.querySelector(`.notes-input[data-day="${selectedDay}"]`);
@@ -394,6 +412,15 @@ document.getElementById("reset-week").addEventListener("click", resetWeek);
 
 document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEach((input) => {
   input.addEventListener(input.type === "checkbox" ? "change" : "input", saveProgress);
+});
+
+document.querySelectorAll(".decision-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(`.decision-button[data-day="${button.dataset.day}"]`).forEach((option) => {
+      option.setAttribute("aria-pressed", String(option === button));
+    });
+    saveProgress();
+  });
 });
 
 document.querySelectorAll(".ritual-button").forEach((button) => {
