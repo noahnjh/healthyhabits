@@ -204,6 +204,10 @@
         </section>
       </main>
 
+      <footer class="page-footer">
+        <button id="open-somatic" class="button somatic-button" type="button">Somatic Awareness</button>
+      </footer>
+
       <dialog id="recap-dialog" class="recap-dialog" aria-labelledby="recap-title">
         <div class="recap-header">
           <div>
@@ -217,6 +221,39 @@
           <button id="copy-recap" class="button" type="button">Copy image</button>
           <a id="save-recap" class="button button-save" download="healthy-habits-weekly-recap.png">Save image</a>
           <p id="recap-status" class="recap-status" aria-live="polite"></p>
+        </div>
+      </dialog>
+
+      <dialog id="somatic-dialog" class="recap-dialog somatic-dialog" aria-labelledby="somatic-title">
+        <div class="recap-header">
+          <div>
+            <p class="eyebrow">A GENTLE CHECK-IN</p>
+            <h2 id="somatic-title">Somatic Awareness</h2>
+          </div>
+          <button id="close-somatic" class="button" type="button" aria-label="Close somatic awareness">Close</button>
+        </div>
+        <p class="somatic-intro">Notice this part of your body with kindness. There is nothing to fix or force.</p>
+        <div class="somatic-status" aria-live="polite">
+          <strong id="somatic-part-name">Head</strong>
+          <span id="somatic-countdown">10 seconds</span>
+        </div>
+        <div class="body-map" role="group" aria-label="A simple human body map. The current body part is highlighted below.">
+          <button class="body-part body-head" type="button" data-body-part="Head" aria-label="Focus on head">Head</button>
+          <button class="body-part body-neck" type="button" data-body-part="Neck" aria-label="Focus on neck">Neck</button>
+          <button class="body-part body-chest" type="button" data-body-part="Chest" aria-label="Focus on chest">Chest</button>
+          <button class="body-part body-left-arm" type="button" data-body-part="Left arm" aria-label="Focus on left arm">Left arm</button>
+          <button class="body-part body-right-arm" type="button" data-body-part="Right arm" aria-label="Focus on right arm">Right arm</button>
+          <button class="body-part body-belly" type="button" data-body-part="Belly" aria-label="Focus on belly">Belly</button>
+          <button class="body-part body-left-hand" type="button" data-body-part="Left hand" aria-label="Focus on left hand">Left hand</button>
+          <button class="body-part body-right-hand" type="button" data-body-part="Right hand" aria-label="Focus on right hand">Right hand</button>
+          <button class="body-part body-left-leg" type="button" data-body-part="Left leg" aria-label="Focus on left leg">Left leg</button>
+          <button class="body-part body-right-leg" type="button" data-body-part="Right leg" aria-label="Focus on right leg">Right leg</button>
+          <button class="body-part body-left-foot" type="button" data-body-part="Left foot" aria-label="Focus on left foot">Left foot</button>
+          <button class="body-part body-right-foot" type="button" data-body-part="Right foot" aria-label="Focus on right foot">Right foot</button>
+        </div>
+        <div class="somatic-actions">
+          <button id="randomize-somatic" class="button" type="button">Randomize</button>
+          <p id="somatic-progress" class="recap-status">Part 1 of 12</p>
         </div>
       </dialog>
 

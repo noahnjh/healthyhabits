@@ -22,6 +22,27 @@ const dayCards = document.querySelectorAll(".day-card");
 const recapDialog = document.getElementById("recap-dialog");
 const recapStatus = document.getElementById("recap-status");
 const ritualDialog = document.getElementById("ritual-dialog");
+const somaticDialog = document.getElementById("somatic-dialog");
+const somaticParts = Array.from(document.querySelectorAll(".body-part"));
+const somaticPartName = document.getElementById("somatic-part-name");
+const somaticCountdown = document.getElementById("somatic-countdown");
+const somaticProgress = document.getElementById("somatic-progress");
+let somaticSequence = [
+  "Head",
+  "Neck",
+  "Chest",
+  "Belly",
+  "Left arm",
+  "Right arm",
+  "Left hand",
+  "Right hand",
+  "Left leg",
+  "Right leg",
+  "Left foot",
+  "Right foot",
+];
+let somaticIndex = 0;
+let somaticTimer;
 let recapUrl;
 
 function getSavedProgress() {
@@ -437,6 +458,49 @@ document.querySelectorAll(".ritual-guide-button").forEach((button) => {
   button.addEventListener("click", () => ritualDialog.showModal());
 });
 document.getElementById("close-ritual").addEventListener("click", () => ritualDialog.close());
+function showSomaticPart() {
+  somaticParts.forEach((part) => {
+    part.classList.toggle("is-active", part.dataset.bodyPart === somaticSequence[somaticIndex]);
+  });
+  somaticPartName.textContent = somaticSequence[somaticIndex];
+  somaticProgress.textContent = `Part ${somaticIndex + 1} of ${somaticSequence.length}`;
+
+  let secondsLeft = 10;
+  somaticCountdown.textContent = `${secondsLeft} seconds`;
+  clearInterval(somaticTimer);
+  somaticTimer = setInterval(() => {
+    secondsLeft -= 1;
+    somaticCountdown.textContent = `${secondsLeft} second${secondsLeft === 1 ? "" : "s"}`;
+    if (secondsLeft === 0) {
+      somaticIndex = (somaticIndex + 1) % somaticSequence.length;
+      showSomaticPart();
+    }
+  }, 1000);
+}
+
+function shuffleSomaticSequence() {
+  somaticSequence = [...somaticSequence].sort(() => Math.random() - 0.5);
+  somaticIndex = 0;
+  showSomaticPart();
+}
+
+document.getElementById("open-somatic").addEventListener("click", () => {
+  somaticIndex = 0;
+  showSomaticPart();
+  somaticDialog.showModal();
+});
+document.getElementById("close-somatic").addEventListener("click", () => {
+  clearInterval(somaticTimer);
+  somaticDialog.close();
+});
+somaticDialog.addEventListener("close", () => clearInterval(somaticTimer));
+document.getElementById("randomize-somatic").addEventListener("click", shuffleSomaticSequence);
+somaticParts.forEach((part) => {
+  part.addEventListener("click", () => {
+    somaticIndex = somaticSequence.indexOf(part.dataset.bodyPart);
+    showSomaticPart();
+  });
+});
 document.getElementById("copy-recap").addEventListener("click", async () => {
   if (!recapUrl || !navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
     recapStatus.textContent = "Image copying is not available in this browser. Use Save image instead.";
