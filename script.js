@@ -416,9 +416,9 @@ document.querySelectorAll(".habit-check, .gratitude-input, .notes-input").forEac
 
 document.querySelectorAll(".decision-button").forEach((button) => {
   button.addEventListener("click", () => {
-    document.querySelectorAll(`.decision-button[data-day="${button.dataset.day}"]`).forEach((option) => {
-      option.setAttribute("aria-pressed", String(option === button));
-    });
+    const dayButtons = document.querySelectorAll(`.decision-button[data-day="${button.dataset.day}"]`);
+    dayButtons.forEach((option) => option.setAttribute("aria-pressed", "false"));
+    button.setAttribute("aria-pressed", "true");
     saveProgress();
   });
 });
